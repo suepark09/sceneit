@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
     function renderMovies(watchlist) {
         let movieHTML = watchlist.map(function(currentMovie) {
@@ -24,6 +25,10 @@ $(document).ready(function() {
 
         return movieHTML.join(" ");
     }
-    document.getElementById('movies-container').innerHTML = renderMovies(localStorage.getItem('watchlist'));
+
+    let watchlist = JSON.parse(localStorage.getItem('watchlist'))
+    // console.log(storage)
+    // console.log({ hello: "bye"})
+    document.getElementById('movies-container').innerHTML = renderMovies(watchlist);
 
 })

@@ -5,18 +5,21 @@ $(document).ready(function(){
     function saveToWatchList (imdbID) {
         // console.log('saving to watch list')
         let movie = movieData.find(function(currentMovie) {
-            return currentMovie.imdbID == imdbID;
+            return currentMovie.imdbID == imdbID.movieId;
         });
         
         let watchlistJSON = localStorage.getItem('watchlist');
-        let watchlist = JSON.parse(watchlistJSON)
-        watchlist = []; 
+        let watchlist = JSON.parse(watchlistJSON);
+
+        // watchlist = [];
+        if (watchlist == null) {
+            watchlist = [];
+        }
+
         watchlist.push(movie)
         watchlistJSON = JSON.stringify(watchlist);
         localStorage.setItem('watchlist', watchlistJSON);
-       
-
-
+    
     }
 
     function clickMoviesContainer(e) {
