@@ -8,21 +8,19 @@ $(document).ready(function(){
             return currentMovie.imdbID == imdbID;
         });
         
-        let watchlistJSON = localStorage.getItem(watchlist);
+        let watchlistJSON = localStorage.getItem('watchlist');
         let watchlist = JSON.parse(watchlistJSON)
-        // if (watchlist = null) {
-        //     console.log('im null')
-        // } else {
-        //     console.log('not null')
-        // }
+        watchlist = []; 
+        watchlist.push(movie)
+        watchlistJSON = JSON.stringify(watchlist);
+        localStorage.setItem('watchlist', watchlistJSON);
+       
 
 
     }
 
     function clickMoviesContainer(e) {
         if (!e.target.classList.contains('add-btn')) return
-        // console.log(e.target.dataset)
-        // console.log('~~~~~~~~~~~~~~~~')
         saveToWatchList(e.target.dataset);
     }
 
@@ -36,22 +34,10 @@ $(document).ready(function(){
 
     window.addEventListener('DOMContentLoaded', init())
 
+
     function renderMovies(movieArray) {
 
         let movieHTML = movieArray.map(function(currentMovie) {
-
-           
-       
-
-            // Step 1: make it that #movies-container only exists once
-            //        and is not over-written
-            // Step 2: when the page load, add a single event handler on
-            //         #movies-container
-
-
-            // myFunction() // calling
-            // myFunction // reference
-
             return `
                 <div>
 			            <div class="card" style="width: 10rem;">
