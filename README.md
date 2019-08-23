@@ -5,7 +5,6 @@ Scene It is a front-end app that allows you to search movies and save them to yo
 
 ### Project Goals
 - Familiarize myself with fetching and utilizing data from an API
-- 
 
 ## Technologies Used
 - Bootstrap 4
