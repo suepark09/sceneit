@@ -1,40 +1,6 @@
 
 
-$(document).ready(function(){
-
-    function saveToWatchList (imdbID) {
-        let movie = movieData.find(function(currentMovie) {
-            return currentMovie.imdbID == imdbID.movieId;
-        });
-        
-        let watchlistJSON = localStorage.getItem('watchlist'); //get watchlist array-string
-        let watchlist = JSON.parse(watchlistJSON); //make string an array 
-
-        // if watchlist is empty, create empty array;
-        if (watchlist == null) {
-            watchlist = [];
-        }
-
-        watchlist.push(movie)
-        watchlistJSON = JSON.stringify(watchlist);
-        localStorage.setItem('watchlist', watchlistJSON);
-    
-    }
-
-    function clickMoviesContainer(e) {
-        if (!e.target.classList.contains('add-btn')) return
-        saveToWatchList(e.target.dataset);
-    }
-
-    function addEvents () {
-        document.getElementById('movies-container').addEventListener('click', clickMoviesContainer)
-    }
-
-    function init () {
-        addEvents()
-    }
-
-    window.addEventListener('DOMContentLoaded', init())
+document.addEventListener('DOMContentLoaded', function(){
 
     
     function renderMovies(movieArray) {
@@ -52,7 +18,7 @@ $(document).ready(function(){
                                     </div>
                                 </div>
                                 <div class="btn-row">
-                                    <a href="#"><button class="btn add-btn" data-movie-id="${currentMovie.imdbID}">Add</button></a>
+                                    <a href="#"><button class="btn add-btn" onclick=saveToWatchList('${currentMovie.imdbID}') data-movie-id="${currentMovie.imdbID}">Add</button></a>
                                 </div>
                             
                             </div>
@@ -67,21 +33,52 @@ $(document).ready(function(){
 
     document.getElementById("search-form").addEventListener("submit", function(e){
         e.preventDefault();
-        // let searchString = document.getElementById("search-form").value
+        
         let form = e.target;
         let formValue = form[0].value
-        // console.dir(form[0].value);
-        // console.log('this is search string', searchString)
         let urlEncodedSearchString = encodeURIComponent(formValue)
 
         axios.get("http://www.omdbapi.com/?apikey=3430a78&s=" + urlEncodedSearchString)
             .then(function(response) {
-                // console.log(response);
-                let movieHTML = renderMovies(response.data.Search);
-                // console.log(movieHTML)
+
+                let searchObject = response.data.Search
+                let updatedSearchObject = searchObject.map(function(img) {
+                    if (img.Poster === 'N/A') {
+                        return {
+                            ...img,
+                            Poster: "no_image.png"
+                        }
+                    } else {
+                        return img;
+                    }
+                                        
+                })
+
+                let movieHTML = renderMovies(updatedSearchObject);
                 document.getElementById("movies-container").innerHTML = movieHTML;
             })
        
     })
 
 });
+
+function saveToWatchList (imdbID) {
+    console.log(imdbID)
+    axios.get("http://www.omdbapi.com/?apikey=3430a78&i=" + imdbID)
+        .then(function(response) {
+            let watchlistJSON = localStorage.getItem('watchlist'); //get watchlist array-string
+            let watchlist = JSON.parse(watchlistJSON); //make string an array 
+    
+            // if watchlist is empty, create empty array;
+            if (watchlist == null) {
+                watchlist = [];
+            }
+    
+            watchlist.push(response.data)
+            watchlistJSON = JSON.stringify(watchlist);
+            localStorage.setItem('watchlist', watchlistJSON);
+    })
+    
+
+
+}
