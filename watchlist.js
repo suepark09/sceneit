@@ -27,8 +27,6 @@ $(document).ready(function() {
     }
 
     let watchlist = JSON.parse(localStorage.getItem('watchlist'))
-    // console.log(storage)
-    // console.log({ hello: "bye"})
     document.getElementById('movies-container').innerHTML = renderMovies(watchlist);
 
 })
