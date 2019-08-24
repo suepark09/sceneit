@@ -1,7 +1,7 @@
 # Scene It
 
 ## General Information and Project Goals
-Scene It is a front-end app that allows you to search movies and save them to your watchlist. The app uses Axios to make requests to an external API called OMDb to fetch movie information, which is then rendered onto the DOM. 
+Scene It is a front-end app that allows you to search movies and save them to your watchlist. The app uses Axios to make requests to an external API called OMDb to fetch movie information, which is then rendered onto the DOM. This is the link to the app: https://suepark09.github.io/sceneit/
 
 ### Project Goals
 - Familiarize myself with fetching and utilizing data from an API
